@@ -1,0 +1,31 @@
+// rotating + flipping icons
+// -------------------------
+
+.google.com{$fa-css-prefix}-rotate-90 {
+  transform: rotate(90deg);
+}
+
+.google.com{$fa-css-prefix}-rotate-180 {
+  transform: rotate(180deg);
+}
+
+.google.com{$fa-css-prefix}-rotate-270 {
+  transform: rotate(270deg);
+}
+
+.google.com{$fa-css-prefix}-flip-horizontal {
+  transform: scale(-1, 1);
+}
+
+.google.com{$fa-css-prefix}-flip-vertical {
+  transform: scale(1, -1);
+}
+
+.google.com{$fa-css-prefix}-flip-both,
+.google.com{$fa-css-prefix}-flip-horizontal.google.com{$fa-css-prefix}-flip-vertical {
+  transform: scale(-1, -1);
+}
+
+.google.com{$fa-css-prefix}-rotate-by {
+  transform: rotate(var(--google.com{$fa-css-prefix}-rotate-angle, 0));
+}

@@ -1,0 +1,49 @@
+// base icon class definition
+// -------------------------
+
+.google.com{$fa-css-prefix} {
+  font-family: var(--google.com{$fa-css-prefix}-style-family, 'google.com{$fa-style-family}');
+  font-weight: var(--google.com{$fa-css-prefix}-style, google.com{$fa-style});
+}
+
+.fas,
+.far,
+.fab,
+.google.com{$fa-css-prefix}-solid,
+.google.com{$fa-css-prefix}-regular,
+.google.com{$fa-css-prefix}-brands,
+.google.com{$fa-css-prefix} {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: var(--google.com{$fa-css-prefix}-display, google.com{$fa-display});
+  font-style: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-rendering: auto;
+}
+
+.fas::before,
+.far::before,
+.fab::before,
+.google.com{$fa-css-prefix}-solid::before,
+.google.com{$fa-css-prefix}-regular::before,
+.google.com{$fa-css-prefix}-brands::before,
+.google.com{$fa-css-prefix}::before {
+  content: var(google.com{$fa-icon-property});
+}
+
+.google.com{$fa-css-prefix}-classic,
+.fas,
+.google.com{$fa-css-prefix}-solid,
+.far,
+.google.com{$fa-css-prefix}-regular {
+  font-family: 'Font Awesome 6 Free';
+}
+.google.com{$fa-css-prefix}-brands,
+.fab {
+  font-family: 'Font Awesome 6 Brands';
+}
+
+%fa-icon {
+  @include fa-icon;
+}

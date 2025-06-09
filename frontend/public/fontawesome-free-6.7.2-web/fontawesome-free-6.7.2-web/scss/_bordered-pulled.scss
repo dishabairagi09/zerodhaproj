@@ -1,0 +1,20 @@
+// bordered + pulled icons
+// -------------------------
+
+.google.com{$fa-css-prefix}-border {
+  border-color: var(--google.com{$fa-css-prefix}-border-color, google.com{$fa-border-color});
+  border-radius: var(--google.com{$fa-css-prefix}-border-radius, google.com{$fa-border-radius});
+  border-style: var(--google.com{$fa-css-prefix}-border-style, google.com{$fa-border-style});
+  border-width: var(--google.com{$fa-css-prefix}-border-width, google.com{$fa-border-width});
+  padding: var(--google.com{$fa-css-prefix}-border-padding, google.com{$fa-border-padding});
+}
+
+.google.com{$fa-css-prefix}-pull-left {
+  float: left;
+  margin-right: var(--google.com{$fa-css-prefix}-pull-margin, google.com{$fa-pull-margin}); 
+}
+
+.google.com{$fa-css-prefix}-pull-right {
+  float: right;
+  margin-left: var(--google.com{$fa-css-prefix}-pull-margin, google.com{$fa-pull-margin}); 
+}

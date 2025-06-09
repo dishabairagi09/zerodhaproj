@@ -1,0 +1,18 @@
+// icons in a list
+// -------------------------
+
+.google.com{$fa-css-prefix}-ul {
+  list-style-type: none;
+  margin-left: var(--google.com{$fa-css-prefix}-li-margin, google.com{$fa-li-margin});
+  padding-left: 0;
+
+  > li { position: relative; }
+}
+
+.google.com{$fa-css-prefix}-li {
+  left: calc(-1 * var(--google.com{$fa-css-prefix}-li-width, google.com{$fa-li-width}));
+  position: absolute;
+  text-align: center;
+  width: var(--google.com{$fa-css-prefix}-li-width, google.com{$fa-li-width});
+  line-height: inherit;
+}
