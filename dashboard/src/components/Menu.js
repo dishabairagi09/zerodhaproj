@@ -1,17 +1,38 @@
-import React, { useState } from "react";
-
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link,  } from "react-router-dom";
+import axios from "axios";
 
 const Menu = () => {
   const [selectedMenu, setSelectedMenu] = useState(0);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const [profile, setProfile] = useState(null);
+ //  const navigate = useNavigate();
 
-  const handleMenuClick = (index) => {
-    setSelectedMenu(index);
+  useEffect(() => {
+    // Fetch user profile data
+    axios.get("http://localhost:3002/profile", { withCredentials: true })
+      .then(res => {
+        setProfile(res.data);
+      })
+      .catch(err => {
+        console.error("Failed to load profile:", err);
+        // Optionally redirect to login
+      });
+  }, []);
+
+  const handleMenuClick = (index) => setSelectedMenu(index);
+
+  const handleProfileClick = () => {
+    setIsProfileDropdownOpen(!isProfileDropdownOpen);
   };
 
-  const handleProfileClick = (index) => {
-    setIsProfileDropdownOpen(!isProfileDropdownOpen);
+  const handleLogout = async () => {
+    try {
+      await axios.post("http://localhost:3002/logout", {}, { withCredentials: true });
+      window.location.href = "http://localhost:3000/"; // redirect to frontend login
+    } catch (err) {
+      console.error("Logout error:", err);
+    }
   };
 
   const menuClass = "menu";
@@ -19,81 +40,35 @@ const Menu = () => {
 
   return (
     <div className="menu-container">
-      <img src="logo.png" style={{ width: "50px" }} />
+      <img src="logo.png" alt="Logo" style={{ width: "50px" }} />
       <div className="menus">
         <ul>
-          <li>
-            <Link
-              style={{ textDecoration: "none" }}
-              to="/"
-              onClick={() => handleMenuClick(0)}
-            >
-              <p className={selectedMenu === 0 ? activeMenuClass : menuClass}>
-                Dashboard
-              </p>
-            </Link>
-          </li>
-          <li>
-            <Link
-              style={{ textDecoration: "none" }}
-              to="/orders"
-              onClick={() => handleMenuClick(1)}
-            >
-              <p className={selectedMenu === 1 ? activeMenuClass : menuClass}>
-                Orders
-              </p>
-            </Link>
-          </li>
-          <li>
-            <Link
-              style={{ textDecoration: "none" }}
-              to="/holdings"
-              onClick={() => handleMenuClick(2)}
-            >
-              <p className={selectedMenu === 2 ? activeMenuClass : menuClass}>
-                Holdings
-              </p>
-            </Link>
-          </li>
-          <li>
-            <Link
-              style={{ textDecoration: "none" }}
-              to="/positions"
-              onClick={() => handleMenuClick(3)}
-            >
-              <p className={selectedMenu === 3 ? activeMenuClass : menuClass}>
-                Positions
-              </p>
-            </Link>
-          </li>
-          <li>
-            <Link
-              style={{ textDecoration: "none" }}
-              to="funds"
-              onClick={() => handleMenuClick(4)}
-            >
-              <p className={selectedMenu === 4 ? activeMenuClass : menuClass}>
-                Funds
-              </p>
-            </Link>
-          </li>
-          <li>
-            <Link
-              style={{ textDecoration: "none" }}
-              to="/apps"
-              onClick={() => handleMenuClick(6)}
-            >
-              <p className={selectedMenu === 6 ? activeMenuClass : menuClass}>
-                Apps
-              </p>
-            </Link>
-          </li>
+          {["Dashboard", "Orders", "Holdings", "Positions", "Funds", "Apps"].map((item, index) => (
+            <li key={index}>
+              <Link
+                style={{ textDecoration: "none" }}
+                to={`/${item.toLowerCase()}`}
+                onClick={() => handleMenuClick(index)}
+              >
+                <p className={selectedMenu === index ? activeMenuClass : menuClass}>
+                  {item}
+                </p>
+              </Link>
+            </li>
+          ))}
         </ul>
         <hr />
-        <div className="profile" onClick={handleProfileClick}>
-          <div className="avatar">ZU</div>
-          <p className="username">USERID</p>
+        <div className="profile" onClick={handleProfileClick} style={{ cursor: "pointer" }}>
+          <div className="avatar">{profile ? profile.username.charAt(0).toUpperCase() : "U"}</div>
+          <p className="username">Profile</p>
         </div>
+        {isProfileDropdownOpen && profile && (
+          <div className="profile-dropdown">
+            <p><strong>Username:</strong> {profile.username}</p>
+            <p><strong>Email:</strong> {profile.email}</p>
+            <button onClick={handleLogout}>Logout</button>
+          </div>
+        )}
       </div>
     </div>
   );

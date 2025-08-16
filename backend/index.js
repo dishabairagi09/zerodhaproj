@@ -48,7 +48,9 @@ app.post("/signup", async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    const user = new User({ username, email, password });
+    const hashedPassword = await bcrypt.hash(password, 10); // ✅ Add this line
+
+    const user = new User({ username, email, password: hashedPassword }); // ✅ Use it here
     await user.save();
 
     const token = jwt.sign(
@@ -75,23 +77,30 @@ app.post("/signup", async (req, res) => {
       }
     });
   } catch (error) {
+    console.error("Signup error:", error); // Log full error
     res.status(500).json({ message: error.message });
   }
 });
+
 
 // Login
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log("Login attempt:", email, password);
 
     const user = await User.findOne({ email });
+    console.log("Found user:", user);
+
     if (!user) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid credentials - user not found" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
+    console.log("Password match?", isMatch);
+
     if (!isMatch) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid credentials - password mismatch" });
     }
 
     const token = jwt.sign(
